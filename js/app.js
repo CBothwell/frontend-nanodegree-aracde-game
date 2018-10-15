@@ -1,3 +1,4 @@
+'use strict';
 // Enemies our player must avoid
 var Enemy = function(row) {
     // Variables applied to each of our instances go here,
@@ -66,16 +67,11 @@ Player.prototype.update = function(dt) {
 
   // Collision detection
   this.enemies.forEach(function (enemy) {
-    console.log(self.x < enemy.x + enemy.width, self.x , enemy.x + enemy.width);
-    console.log(self.x + self.width > enemy.x, self.x + self.width , enemy.x);
-    console.log(self.y < enemy.y + enemy.height, self.y , enemy.y + enemy.height);
-    console.log(self.y + self.height > enemy.y, self.y + self.height , enemy.y);
 
     if (self.x < enemy.x + enemy.width &&
         self.x + self.width > enemy.x &&
         self.y < enemy.y + enemy.height &&
         self.y + self.height > enemy.y) {
-      console.log('collision detected');
       self.reset();
     }
   });
@@ -99,8 +95,11 @@ Player.prototype.handleInput = function(keyCode) {
     this.y -= this.virtical;
 
     if (this.y - this.virtical < 0) {
-      this.score += 1;
-      this.reset();
+      let self = this;
+      setTimeout(function () {
+        self.score += 1;
+        self.reset();
+      }, 500);
     }
 
   } else if (this.nextMove === 'down' && this.y + this.virtical < this.virtical * 6 ) {
